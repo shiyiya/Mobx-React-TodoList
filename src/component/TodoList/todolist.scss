@@ -1,0 +1,53 @@
+.todo-list {
+  border: 3px solid #ccc;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: left;
+  li {
+    position: relative;
+    line-height: 100%;
+    padding: 10px 0;
+    border-bottom: #ccc 2px dashed;
+    &:hover {
+      background-color: #eee;
+    }
+
+    .single-todo-action {
+      position: absolute;
+      right: 0;
+      top: 0;
+      button {
+        cursor: pointer;
+        &.done {
+          background-color: #1890ff;
+          border-color: #1890ff;
+          color: white;
+        }
+        &.undo {
+          background-color: transparent;
+          &:hover {
+            color: #1890ff;
+            border-color: #1890ff;
+          }
+        }
+        &.del-btn {
+          color: red;
+          background-color: transparent;
+          &:hover {
+            color: white;
+            background-color: red;
+            border-color: red;
+          }
+        }
+      }
+    }
+  }
+  label {
+    &:hover {
+      cursor: pointer;
+    }
+    &:last-child li {
+      border: none;
+    }
+  }
+}
