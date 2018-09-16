@@ -37,6 +37,7 @@ export default class AppStore {
       _key: this._key + 1,
       text: this.newTodoText
     })
+    this.newTodoText = ''
   }
 
   @action

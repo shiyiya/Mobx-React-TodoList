@@ -5,7 +5,6 @@ import { Switch, BrowserRouter, Route } from 'react-router-dom'
 import routers from './router'
 
 // Global Components
-import Notification from './component/Notification'
 import GlobalDrawer from './component/GlobalDrawer'
 
 //import { observer, inject } from 'mobx-react'
@@ -19,7 +18,6 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Notification />
         <BrowserRouter>
           <GlobalDrawer>
             <Switch>
