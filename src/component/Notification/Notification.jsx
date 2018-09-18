@@ -1,62 +1,72 @@
 import React, { Component } from 'react'
-import { createPortal } from 'react-dom'
-import { inject, observer } from 'mobx-react'
+import ReactDOM from 'react-dom'
+
+import Notice from './Notice'
 import './notification.css'
 
-/**
- * 实现一个简单的 小提示 组建
- */
-@inject('AppStore')
-@observer
-export default class Notification extends Component {
-  constructor() {
-    super(...arguments)
-    this.state = {
-      duration: 2,
-      notices: []
-    }
-    const doc = window.document
-    this.node = doc.createElement('div')
-    this.node.className = 'notification'
-    doc.body.appendChild(this.node)
-  }
-
+class Notification extends Component {
   static defaultProps = {
-    animation: 'fade',
     style: {
       top: 24,
       right: 24
     }
   }
-
-  componentDidMount() {
-    this.startCloseTimer()
+  state = { msg: [] }
+  render() {
+    const msg = this.state.msg,
+      style = this.props.style
+    return msg.lenght < 1
+      ? null
+      : msg.map((item, i) => (
+          <Notice key={i} _key={i} {...style}>
+            {item}
+          </Notice>
+        ))
   }
 
-  startCloseTimer = () => {
-    this.closeTimer = setTimeout(() => {
-      this.close()
-    }, this.state.duration * 1000)
+  componentDidMount() {
+    this.close()
+  }
+
+  add(msg) {
+    this.setState(prevState => ({
+      msg: prevState.msg.concat(msg)
+    }))
+    this.close()
   }
 
   close = () => {
     if (this.closeTimer) {
-      clearTimeout(this.closeTimer)
-      this.closeTimer = null
+      return
     }
-  }
-
-  render() {
-    return createPortal(
-      <React.Fragment>
-        11
-        {this.props.children}
-      </React.Fragment>,
-      this.node
-    )
-  }
-
-  componentWillUnmount() {
-    window.document.body.removeChild(this.node)
+    this.closeTimer = setInterval(() => {
+      if (this.state.msg.length < 1) {
+        console.log('msg 0', this.closeTimer)
+        clearInterval(this.closeTimer)
+        this.closeTimer = null
+        return
+      }
+      this.setState(prevState => {
+        const state = prevState.msg
+        state.shift()
+        return { msg: state }
+      })
+    }, 2000)
   }
 }
+
+Notification.newInstance = function(msg) {
+  const node = document.createElement('div')
+  document.body.appendChild(node)
+  const notification = ReactDOM.render(
+    <Notification node={node} msg={msg} />,
+    node
+  )
+  return {
+    msg(msg) {
+      notification.add(msg)
+    }
+  }
+}
+
+export default Notification

@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 
+//import Notification from '../Notification'
 import './todoaction.css'
 
 @inject('AppStore')
 @observer
 export default class TodoItem extends Component {
   render() {
+    // /Notification.newInstance().alert('111')
     const store = this.props.AppStore
     return (
       <div className="todo-action">

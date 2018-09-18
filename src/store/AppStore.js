@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx'
+import Notification from '../component/Notification'
 
 export default class AppStore {
   @observable
@@ -30,7 +31,7 @@ export default class AppStore {
   newTodo = () => {
     this._key = this._key + 1
     if (!this.newTodoText) {
-      console.log('write some')
+      Notification.msg('写点什么吧')
       return
     }
     this.todoList.push({
